@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - include:
+      file: 1-create-tables.sql
+      relativeToChangelogFile: true
+  - include:
+      file: 2-insert-data-categories.sql
+      relativeToChangelogFile: true
+  - include:
+      file: 3-insert-data-products.sql
+      relativeToChangelogFile: true
