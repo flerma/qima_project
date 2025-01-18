@@ -1,4 +1,4 @@
-package com.qima.productsapi.entities;
+package com.qima.productsapi.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,33 +14,43 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
+@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "categories")
-public class Category {
+@Table(name = "products")
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 255)
+    @Column
     private String name;
 
+    @Column
+    private String description;
+
+    @Column(nullable = false)
+    private Double price;
+
     @ManyToOne
-    @JoinColumn(name = "parent", referencedColumnName = "id")
-    private Category parent;
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    private Category category;
 
     @Column
-    private Integer depthLevel;
+    private Boolean available;
 
     @Column
-    private Boolean isLeaf;
+    private Boolean obsolete;
+
+    @Column
+    private Integer yearCreation;
+
+    @Column
+    private String serialNumber;
 
     @Column
     private Long creationUser;
@@ -53,14 +63,4 @@ public class Category {
 
     @Column
     private LocalDateTime updateDate;
-
-    public String getCategoryPath() {
-        List<String> path = new ArrayList<>();
-        Category current = this;
-        while (current != null) {
-            path.add(0, current.name);
-            current = current.parent;
-        }
-        return String.join(" > ", path);
-    }
 }

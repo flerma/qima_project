@@ -21,17 +21,18 @@ public class SecurityConfig {
                     "/swagger-ui.html",
                     "/v3/api-docs/**",
                     "/v3/api-docs.yaml",
-                    "/products"
+                    "/api/**",
+                    "/view/**"
                 ).permitAll()
                 .requestMatchers("/products").hasAnyRole("SUPERUSER", "USER")
                 .requestMatchers("/admin/**").hasRole("SUPERADMIN")
                 .anyRequest().authenticated()
-            )
-            .formLogin(form -> form
-                .loginPage("/login")
-                .permitAll()
-            )
-            .logout(LogoutConfigurer::permitAll);
+            );
+//            .formLogin(form -> form
+//                .loginPage("/login")
+//                .permitAll()
+//            )
+//            .logout(LogoutConfigurer::permitAll);
 
         return http.build();
     }

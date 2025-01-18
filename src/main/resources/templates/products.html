@@ -1,0 +1,137 @@
+<head>
+    <title>Product List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+
+    <style>
+        .action-bar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .edit-button, .delete-button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0;
+        }
+
+        .edit-button {
+            color: blue;
+        }
+
+        .edit-button:hover {
+            color: darkblue;
+        }
+
+        .delete-button {
+            color: red;
+        }
+
+        .delete-button:hover {
+            color: darkred;
+        }
+    </style>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"></script>
+<body>
+<div class="container mt-5">
+    <h1 class="mb-4">Product List</h1>
+
+    <div class="action-bar">
+        <a href="/view/product/new" class="btn btn-primary">New Product</a>
+    </div>
+
+    <table class="table table-striped" id="product-table">
+        <thead>
+        <tr>
+            <th><input type="text" id="filter-id" class="form-control filter-input" placeholder="Filter by ID"></th>
+            <th><input type="text" id="filter-name" class="form-control filter-input" placeholder="Filter by Name"></th>
+            <th><input type="text" id="filter-description" class="form-control filter-input" placeholder="Filter by Description"></th>
+            <th><input type="text" id="filter-price" class="form-control filter-input" placeholder="Filter by Price"></th>
+            <th><input type="text" id="filter-category" class="form-control filter-input" placeholder="Filter by Category Path"></th>
+        </tr>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Category Path</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="product : ${products}">
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.description}"></td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.categoryPath}"></td>
+            <td class="action-buttons">
+                <a th:href="@{/view/product/edit(id=${product.id})}" class="edit-button" title="Edit">
+                    <i class="bi bi-pencil-square"></i>
+                </a>
+                <a th:href="@{/view/product/delete(id=${product.id})}" class="delete-button" title="Delete">
+                    <i class="bi bi-trash"></i>
+                </a>
+<!--                <form th:action="@{/view/product/delete}" method="get" class="d-inline">-->
+<!--                    <input type="hidden" name="id" th:value="${product.id}">-->
+<!--                    <button type="submit" class="delete-button" title="Delete">-->
+<!--                        <i class="bi bi-trash"></i>-->
+<!--                    </button>-->
+<!--                </form>-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+
+    function filterTable() {
+        const table = document.getElementById("product-table");
+        const rows = table.getElementsByTagName("tr");
+        const filters = {
+            id: document.getElementById("filter-id").value.toLowerCase(),
+            name: document.getElementById("filter-name").value.toLowerCase(),
+            description: document.getElementById("filter-description").value.toLowerCase(),
+            price: document.getElementById("filter-price").value.toLowerCase(),
+            category: document.getElementById("filter-category").value.toLowerCase()
+        };
+
+        for (let i = 2; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName("td");
+            const id = cells[0].textContent.toLowerCase();
+            const name = cells[1].textContent.toLowerCase();
+            const description = cells[2].textContent.toLowerCase();
+            const price = cells[3].textContent.toLowerCase();
+            const category = cells[4].textContent.toLowerCase();
+
+            const match = (!filters.id || id.includes(filters.id)) &&
+                (!filters.name || name.includes(filters.name)) &&
+                (!filters.description || description.includes(filters.description)) &&
+                (!filters.price || price.includes(filters.price)) &&
+                (!filters.category || category.includes(filters.category));
+
+            rows[i].style.display = match ? "" : "none";
+        }
+    }
+
+    document.getElementById("filter-id").addEventListener("input", filterTable);
+    document.getElementById("filter-name").addEventListener("input", filterTable);
+    document.getElementById("filter-description").addEventListener("input", filterTable);
+    document.getElementById("filter-price").addEventListener("input", filterTable);
+    document.getElementById("filter-category").addEventListener("input", filterTable);
+</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
-package com.qima.productsapi.repositories;
+package com.qima.productsapi.repository;
 
-import com.qima.productsapi.entities.Product;
+import com.qima.productsapi.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {

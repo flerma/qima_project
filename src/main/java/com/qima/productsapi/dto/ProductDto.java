@@ -1,10 +1,14 @@
 package com.qima.productsapi.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+@Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductDto {
 
     private Long id;
@@ -16,5 +20,6 @@ public class ProductDto {
     private Integer yearCreation;
     private String serialNumber;
     private String categoryPath;
+    private Long categoryId;
 
 }
