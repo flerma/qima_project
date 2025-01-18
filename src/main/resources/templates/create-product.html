@@ -33,6 +33,14 @@
         </div>
 
         <div class="mb-3">
+            <label for="obsolete" class="form-label">Obsolete</label>
+            <select id="obsolete" class="form-select" th:field="*{obsolete}">
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
             <label for="yearCreation" class="form-label">Year of Creation</label>
             <input type="number" id="yearCreation" class="form-control" th:field="*{yearCreation}" required>
         </div>

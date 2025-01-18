@@ -96,6 +96,7 @@ public class ProductService {
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
         product.setAvailable(productDTO.getAvailable());
+        product.setObsolete(productDTO.getObsolete());
         product.setYearCreation(productDTO.getYearCreation());
         product.setSerialNumber(productDTO.getSerialNumber());
         product.setCategory(category);
