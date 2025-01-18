@@ -1,12 +1,11 @@
 package com.qima.productsapi.controller;
 
+import com.qima.productsapi.dto.ProductDto;
 import com.qima.productsapi.service.CategoryService;
 import com.qima.productsapi.service.ProductService;
-import com.qima.productsapi.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
