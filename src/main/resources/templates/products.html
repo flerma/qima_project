@@ -4,6 +4,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
 
     <style>
+
+        .column-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .column-description {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .column-category-path {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         .action-bar {
             display: flex;
             justify-content: flex-end;
@@ -58,25 +77,38 @@
             <th><input type="text" id="filter-name" class="form-control filter-input" placeholder="Filter by Name"></th>
             <th><input type="text" id="filter-description" class="form-control filter-input" placeholder="Filter by Description"></th>
             <th><input type="text" id="filter-price" class="form-control filter-input" placeholder="Filter by Price"></th>
+            <th><input type="text" id="filter-available" class="form-control filter-input" placeholder="Filter by Available"></th>
+            <th><input type="text" id="filter-obsolete" class="form-control filter-input" placeholder="Filter by Obsolete"></th>
+            <th><input type="text" id="filter-year" class="form-control filter-input" placeholder="Filter by Year"></th>
+            <th><input type="text" id="filter-serial" class="form-control filter-input" placeholder="Filter by Serial Number"></th>
             <th><input type="text" id="filter-category" class="form-control filter-input" placeholder="Filter by Category Path"></th>
+            <th></th>
         </tr>
         <tr>
             <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
+            <th class="column-name">Name</th>
+            <th class="column-description">Description</th>
             <th>Price</th>
-            <th>Category Path</th>
+            <th>Available</th>
+            <th>Obsolete</th>
+            <th>Year Creation</th>
+            <th>Serial Number</th>
+            <th class="column-category-path">Category Path</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
 
         <tr th:each="product : ${products}">
-            <td th:text="${product.id}"></td>
-            <td th:text="${product.name}"></td>
-            <td th:text="${product.description}"></td>
+            <td class="column-id" th:text="${product.id}"></td>
+            <td class="column-name" th:text="${product.name}"></td>
+            <td class="column-description" th:text="${product.description}"></td>
             <td th:text="${product.price}"></td>
-            <td th:text="${product.categoryPath}"></td>
+            <td th:text="${product.available ? 'Yes' : 'No'}"></td>
+            <td th:text="${product.obsolete ? 'Yes' : 'No'}"></td>
+            <td th:text="${product.yearCreation}"></td>
+            <td th:text="${product.serialNumber}"></td>
+            <td class="column-category-path" th:text="${product.categoryPath}"></td>
             <td class="action-buttons">
                 <a th:href="@{/view/product/edit(id=${product.id})}" class="edit-button" title="Edit">
                     <i class="bi bi-pencil-square"></i>
@@ -97,7 +129,6 @@
 </div>
 
 <script>
-
     function filterTable() {
         const table = document.getElementById("product-table");
         const rows = table.getElementsByTagName("tr");
@@ -106,6 +137,10 @@
             name: document.getElementById("filter-name").value.toLowerCase(),
             description: document.getElementById("filter-description").value.toLowerCase(),
             price: document.getElementById("filter-price").value.toLowerCase(),
+            available: document.getElementById("filter-available").value.toLowerCase(),
+            obsolete: document.getElementById("filter-obsolete").value.toLowerCase(),
+            year: document.getElementById("filter-year").value.toLowerCase(),
+            serial: document.getElementById("filter-serial").value.toLowerCase(),
             category: document.getElementById("filter-category").value.toLowerCase()
         };
 
@@ -115,12 +150,20 @@
             const name = cells[1].textContent.toLowerCase();
             const description = cells[2].textContent.toLowerCase();
             const price = cells[3].textContent.toLowerCase();
-            const category = cells[4].textContent.toLowerCase();
+            const available = cells[4].textContent.toLowerCase();
+            const obsolete = cells[5].textContent.toLowerCase();
+            const year = cells[6].textContent.toLowerCase();
+            const serial = cells[7].textContent.toLowerCase();
+            const category = cells[8].textContent.toLowerCase();
 
             const match = (!filters.id || id.includes(filters.id)) &&
                 (!filters.name || name.includes(filters.name)) &&
                 (!filters.description || description.includes(filters.description)) &&
                 (!filters.price || price.includes(filters.price)) &&
+                (!filters.available || available.includes(filters.available)) &&
+                (!filters.obsolete || obsolete.includes(filters.obsolete)) &&
+                (!filters.year || year.includes(filters.year)) &&
+                (!filters.serial || serial.includes(filters.serial)) &&
                 (!filters.category || category.includes(filters.category));
 
             rows[i].style.display = match ? "" : "none";
@@ -131,6 +174,10 @@
     document.getElementById("filter-name").addEventListener("input", filterTable);
     document.getElementById("filter-description").addEventListener("input", filterTable);
     document.getElementById("filter-price").addEventListener("input", filterTable);
+    document.getElementById("filter-available").addEventListener("input", filterTable);
+    document.getElementById("filter-obsolete").addEventListener("input", filterTable);
+    document.getElementById("filter-year").addEventListener("input", filterTable);
+    document.getElementById("filter-serial").addEventListener("input", filterTable);
     document.getElementById("filter-category").addEventListener("input", filterTable);
 </script>
 </body>
