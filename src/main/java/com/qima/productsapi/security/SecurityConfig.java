@@ -3,7 +3,7 @@ package com.qima.productsapi.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -24,8 +24,8 @@ public class SecurityConfig {
                     "/api/**",
                     "/view/**"
                 ).permitAll()
-                .requestMatchers("/products").hasAnyRole("SUPERUSER", "USER")
-                .requestMatchers("/admin/**").hasRole("SUPERADMIN")
+                .requestMatchers("/products").hasAnyRole("ADMIN", "USER")
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
@@ -47,19 +47,19 @@ public class SecurityConfig {
     }
 
     @Bean
-    public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
-        var superAdmin = org.springframework.security.core.userdetails.User
-            .withUsername("superadmin")
-            .password(passwordEncoder.encode("superpassword"))
-            .roles("SUPERADMIN")
+    public InMemoryUserDetailsManager userDetailsService() {
+        var user = User.withUsername("admin")
+            .password(passwordEncoder().encode("admin"))
+            .roles("ADMIN")
             .build();
 
         var regularUser = org.springframework.security.core.userdetails.User
             .withUsername("user")
-            .password(passwordEncoder.encode("userpassword"))
+            .password(passwordEncoder().encode("user"))
             .roles("USER")
             .build();
 
-        return new InMemoryUserDetailsManager(superAdmin, regularUser);
+        return new InMemoryUserDetailsManager(user, regularUser);
+
     }
 }
