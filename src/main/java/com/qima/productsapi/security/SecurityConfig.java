@@ -17,15 +17,15 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
+                    "/login",
                     "/swagger-ui/**",
                     "/swagger-ui.html",
                     "/v3/api-docs/**",
                     "/v3/api-docs.yaml",
-                    "/api/**",
-                    "/view/**"
-                ).permitAll()
-                .requestMatchers("/products").hasAnyRole("ADMIN", "USER")
-                .requestMatchers("/admin/**").hasRole("ADMIN")
+                    "/api/**"
+                    ).permitAll()
+                .requestMatchers("/view/product/new", "/view/product/edit", "/view/product/delete").hasRole("ADMIN")
+                .requestMatchers("/view/product").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
@@ -53,8 +53,7 @@ public class SecurityConfig {
             .roles("ADMIN")
             .build();
 
-        var regularUser = org.springframework.security.core.userdetails.User
-            .withUsername("user")
+        var regularUser = User.withUsername("user")
             .password(passwordEncoder().encode("user"))
             .roles("USER")
             .build();

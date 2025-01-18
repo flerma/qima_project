@@ -67,7 +67,11 @@
     <h1 class="mb-4">Product List</h1>
 
     <div class="action-bar">
-        <a href="/view/product/new" class="btn btn-primary">New Product</a>
+        <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
+           href="/view/product/new" class="btn btn-primary">New Product</a>
+        <a th:href="@{/logout}" class="btn btn-danger">
+            <i class="bi bi-box-arrow-right"></i> Logout
+        </a>
     </div>
 
     <table class="table table-striped" id="product-table">
@@ -94,7 +98,7 @@
             <th>Year Creation</th>
             <th>Serial Number</th>
             <th class="column-category-path">Category Path</th>
-            <th>Actions</th>
+            <th th:if="${#authorization.expression('hasRole(''ADMIN'')')}">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -109,19 +113,13 @@
             <td th:text="${product.yearCreation}"></td>
             <td th:text="${product.serialNumber}"></td>
             <td class="column-category-path" th:text="${product.categoryPath}"></td>
-            <td class="action-buttons">
+            <td class="action-buttons" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
                 <a th:href="@{/view/product/edit(id=${product.id})}" class="edit-button" title="Edit">
                     <i class="bi bi-pencil-square"></i>
                 </a>
                 <a th:href="@{/view/product/delete(id=${product.id})}" class="delete-button" title="Delete">
                     <i class="bi bi-trash"></i>
                 </a>
-<!--                <form th:action="@{/view/product/delete}" method="get" class="d-inline">-->
-<!--                    <input type="hidden" name="id" th:value="${product.id}">-->
-<!--                    <button type="submit" class="delete-button" title="Delete">-->
-<!--                        <i class="bi bi-trash"></i>-->
-<!--                    </button>-->
-<!--                </form>-->
             </td>
         </tr>
         </tbody>
