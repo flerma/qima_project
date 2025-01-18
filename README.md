@@ -1,46 +1,122 @@
-# Getting Started
+# Products API
 
-### Reference Documentation
+## Table of Contents
+1. [Overview](#overview)
+2. [Prerequisites](#prerequisites)
+3. [Setup Instructions](#setup-instructions)
+4. [User Access and Roles](#user-access-and-roles)
+5. [Application Functionalities](#application-functionalities)
+6. [Swagger Documentation](#swagger-documentation)
 
-For further reference, please consider the following sections:
+---
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/3.4.1/maven-plugin)
-* [Create an OCI image](https://docs.spring.io/spring-boot/3.4.1/maven-plugin/build-image.html)
-* [Spring Data JPA](https://docs.spring.io/spring-boot/3.4.1/reference/data/sql.html#data.sql.jpa-and-spring-data)
-* [Spring Boot DevTools](https://docs.spring.io/spring-boot/3.4.1/reference/using/devtools.html)
-* [Docker Compose Support](https://docs.spring.io/spring-boot/3.4.1/reference/features/dev-services.html#features.dev-services.docker-compose)
-* [Spring Security](https://docs.spring.io/spring-boot/3.4.1/reference/web/spring-security.html)
-* [Thymeleaf](https://docs.spring.io/spring-boot/3.4.1/reference/web/servlet.html#web.servlet.spring-mvc.template-engines)
-* [Spring Web](https://docs.spring.io/spring-boot/3.4.1/reference/web/servlet.html)
+## Overview
 
-### Guides
+The Products API is a Spring Boot application that provides functionalities for managing products and categories. It supports operations such as viewing, creating, editing, and deleting products, with user roles determining access levels.
 
-The following guides illustrate how to use some features concretely:
+---
 
-* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
-* [Securing a Web Application](https://spring.io/guides/gs/securing-web/)
-* [Spring Boot and OAuth2](https://spring.io/guides/tutorials/spring-boot-oauth2/)
-* [Authenticating a User with LDAP](https://spring.io/guides/gs/authenticating-ldap/)
-* [Handling Form Submission](https://spring.io/guides/gs/handling-form-submission/)
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
+## Prerequisites
 
-### Docker Compose support
+Ensure you have the following installed:
 
-This project contains a Docker Compose file named `compose.yaml`.
-In this file, the following services have been defined:
+- **Java** (JDK 17 or later)
+- **Maven**
+- **Docker** and **Docker Compose**
 
-* postgres: [`postgres:latest`](https://hub.docker.com/_/postgres)
+---
 
-Please review the tags of the used images and set them to the same as you're running in production.
+## Setup Instructions
 
-### Maven Parent overrides
+### 1. Clone the Repository
 
-Due to Maven's design, elements are inherited from the parent POM to the project POM.
-While most of the inheritance is fine, it also inherits unwanted elements like `<license>` and `<developers>` from the
-parent.
-To prevent this, the project POM contains empty overrides for these elements.
-If you manually switch to a different parent and actually want the inheritance, you need to remove those overrides.
+```bash
+git clone <repository-url>
+cd <repository-directory>
+```
 
+### 2. Start the Database
+   Use Docker Compose to start the PostgreSQL database:
+
+```bash
+docker-compose up -d
+```
+This command starts a PostgreSQL instance with the configuration provided in the docker-compose.yml file.
+
+### 3. Run the Application
+   Use the Spring Boot CLI or Maven to start the application.
+
+#### Using Spring Boot CLI:
+```bash
+spring run src/main/java/com/qima/productsapi/ProductsApiApplication.java
+```
+Using Maven:
+```bash
+mvn spring-boot:run
+```
+The application will start on http://localhost:8082.
+
+### User Access and Roles
+#### Admin User
+- Username: admin 
+- Password: admin 
+- Role: ADMIN 
+- Permissions: Can view, create, edit, and delete products.
+
+#### Regular User
+- Username: user
+- Password: user
+- Role: USER
+- Permissions: Can only view products.
+
+### Application Functionalities
+1. Login
+
+- URL: http://localhost:8082/login
+Admin and regular users can log in with their respective credentials.
+2. View Products
+
+- Both roles can view the list of products.
+- Includes product details like name, description, price, availability, and category path.
+
+3. Create New Product
+
+- Admin Only
+- Accessible via the "New Product" button on the product list page.
+
+4. Edit Product
+
+- Admin Only
+- Accessible via the "Edit" button for each product in the list.
+
+5. Delete Product
+
+Admin Only
+Accessible via the "Delete" button (trash icon) for each product in the list.
+
+6. Logout
+
+- A "Logout" button is available to end the session and redirect to the login page.
+Swagger Documentation
+The API is fully documented with Swagger for easy exploration and testing.
+
+### Access Swagger UI
+URL: http://localhost:8082/swagger-ui.html
+
+#### Features of Swagger
+
+- Explore all endpoints.
+- Test endpoints directly from the browser.
+- View detailed request/response information.
+
+### Helpful Commands
+#### Stop Docker Containers
+```bash
+docker-compose down
+```
+#### Rebuild the Application
+```bash
+mvn clean install
+```
+### Support
+For questions or issues, please contact the repository maintainer at fernando.lerma@gmail.com
