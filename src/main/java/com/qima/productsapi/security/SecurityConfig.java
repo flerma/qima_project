@@ -27,12 +27,12 @@ public class SecurityConfig {
                 .requestMatchers("/products").hasAnyRole("SUPERUSER", "USER")
                 .requestMatchers("/admin/**").hasRole("SUPERADMIN")
                 .anyRequest().authenticated()
-            );
-//            .formLogin(form -> form
-//                .loginPage("/login")
-//                .permitAll()
-//            )
-//            .logout(LogoutConfigurer::permitAll);
+            )
+            .formLogin(form -> form
+                .loginPage("/login")
+                .permitAll()
+            )
+            .logout(LogoutConfigurer::permitAll);
 
         return http.build();
     }

@@ -51,16 +51,4 @@ public class Product {
 
     @Column
     private String serialNumber;
-
-    @Column
-    private Long creationUser;
-
-    @Column
-    private LocalDateTime creationDate;
-
-    @Column
-    private Long updateUser;
-
-    @Column
-    private LocalDateTime updateDate;
 }

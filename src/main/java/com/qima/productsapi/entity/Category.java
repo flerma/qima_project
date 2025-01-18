@@ -42,18 +42,6 @@ public class Category {
     @Column
     private Boolean isLeaf;
 
-    @Column
-    private Long creationUser;
-
-    @Column
-    private LocalDateTime creationDate;
-
-    @Column
-    private Long updateUser;
-
-    @Column
-    private LocalDateTime updateDate;
-
     public String getCategoryPath() {
         List<String> path = new ArrayList<>();
         Category current = this;
